@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class Solution_6781 {
-	static int[] ans;
 	public static void main(String[] args) throws Exception {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		int tc = Integer.parseInt(in.readLine());
@@ -27,51 +26,28 @@ public class Solution_6781 {
 				cards[idx][num.charAt(i)-'0']++;
 			}
 			
-			ans = new int[2];
+			int ans = 0;
 			stop:
 			for(int[] card : cards) {
-				int[] tmp = card.clone();
-				
-				up(card, 0);
-				if (ans[0] == 3) break stop;
-				same(card, 0);
-				if (ans[0] == 3) break stop;
-				
-				same(tmp, 1);
-				if (ans[1] == 3) break stop;
-				up(tmp, 1);
-				if (ans[1] == 3) break stop;
+				for (int i = 1; i < 10; i++) {
+					if (card[i] > 2) {
+						card[i] -= 3;
+						ans++;
+						
+						if (ans == 3) break stop;
+					}
+					
+					while (i < 8 && card[i] != 0 && card[i+1] != 0 && card[i+2] != 0) {
+						card[i]--; card[i+1]--; card[i+2]--;
+						ans++;
+
+						if (ans == 3) break stop;
+					}
+				}
 			}
 			
-			if (ans[0] == 3 || ans[1] == 3) System.out.println("#"+t+" Win");
+			if (ans == 3) System.out.println("#"+t+" Win");
 			else System.out.println("#"+t+" Continue");
-		}
-	}
-	
-	/*public static void dfs(int idx) {
-		if (idx == 9) return;
-	}*/
-	
-	public static void up(int[] card, int idx) {
-		for (int i = 0; i < 7; i++) {
-			if (ans[idx] == 3) return;
-			if (card[i] == 0) continue;
-			
-			while(card[i] != 0 && card[i+1] != 0 && card[i+2] != 0) {
-				if (ans[idx] == 3) return;
-				ans[idx]++;
-				card[i]--; card[i+1]--; card[i+2]--;
-			}
-		}
-	}
-	
-	public static void same(int[] card, int idx) {
-		for (int i = 0; i < 9; i++) {
-			if (ans[idx] == 3) return;
-			if (card[i] >= 3) {
-				ans[idx]++;
-				card[i] -= 3;
-			}
 		}
 	}
 }
