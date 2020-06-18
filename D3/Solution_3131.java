@@ -9,7 +9,8 @@ public class Solution_3131 {
 		int tc = Integer.parseInt(in.readLine());
 		
 		for (int t = 1; t <= tc; t++) {
-			//내일까지 팀플ㅠㅠㅠ
+			//드디어 팀플이 끝났다ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
+			//내일부터 다시 문제 풀자!!
 		}
 	}
 }
