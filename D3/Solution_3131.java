@@ -1,17 +1,23 @@
-package d3;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+/*
+ * [D3] 3131. 100만 이하의 모든 소수
+ */
 
 public class Solution_3131 {
 	public static void main(String[] args) throws Exception {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		int tc = Integer.parseInt(in.readLine());
+		StringBuilder sb = new StringBuilder();
+		boolean[] prime = new boolean[1000000];
 		
-		for (int t = 1; t <= tc; t++) {
-			//드디어 팀플이 끝났다ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
-			//내일부터 다시 문제 풀자!!
-			//오늘까지만 쉬자..ㅎ...
+		for (int i = 2; i*i < 1000000; i++) {
+			if (prime[i]) continue;
+			
+			for (int j = i*i; j < 1000000; j+=i)
+				prime[j] = true;
 		}
+		
+		for (int i = 2; i < 1000000; i++) {
+			if (!prime[i]) sb.append(i).append(" ");
+		}
+		
+		System.out.println(sb);
 	}
 }
