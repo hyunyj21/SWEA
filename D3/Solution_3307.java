@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Solution_3307 {
+	static int[] dp;
+	
 	public static void main(String[] args) throws Exception {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		int tc = Integer.parseInt(in.readLine());
@@ -14,30 +16,31 @@ public class Solution_3307 {
 		for (int t = 1; t <= tc; t++) {
 			int N = Integer.parseInt(in.readLine());
 			StringTokenizer st = new StringTokenizer(in.readLine(), " ");
-			int[] num = new int[N];
-			
-			for (int i = 0; i < N; i++)
-				num[i] = Integer.parseInt(st.nextToken());
+			dp = new int[N+1];
 			
 			int ans = 1;
-			int[] dp = new int[N];
-			for (int i = 0; i < N; i++) {
-				dp[i] = 1;
+			dp[1] = Integer.parseInt(st.nextToken());
+			for (int i = 1; i < N; i++) {
+				int tmp = Integer.parseInt(st.nextToken());
 				
-				for (int j = 0; j < i; j++) {
-					if (num[i] < num[j]) continue;
-					
-					int tmp = dp[j];
-					if (ans == tmp) {
-						dp[i] = ans = tmp + 1;
-						break;
-					}
-					
-					dp[i] = Math.max(dp[i], tmp + 1);
-				}
+				if (dp[ans] <= tmp) dp[++ans] = tmp;
+				else lower_bound(ans, tmp);
 			}
 			
 			System.out.println("#"+t+" "+ans);
 		}
+	}
+	
+	public static void lower_bound(int end, int n) {
+		int start = 1;
+		
+		while(start < end) {
+			int mid = (start+end)/2;
+			
+			if (dp[mid] >= n) end = mid;
+			else start = mid+1;
+		}
+		
+		dp[end] = n;
 	}
 }
