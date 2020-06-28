@@ -28,10 +28,8 @@ public class Solution_1228 {
 				int y = Integer.parseInt(st.nextToken()) + x;
 				
 				for (int i = x; i < y; i++) {
-					if (x > 9) {
-						st.nextToken();
-						continue;
-					} else num.add(x++,st.nextToken());
+					if (i > 9) st.nextToken();
+					else num.add(i,st.nextToken());
 				}
 			}
 			
