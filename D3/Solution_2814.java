@@ -10,6 +10,8 @@ import java.util.StringTokenizer;
 
 public class Solution_2814 {
 	static List<List<Integer>> graph;
+	static boolean[] visited;
+	static int ans;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -34,8 +36,31 @@ public class Solution_2814 {
 				graph.get(y).add(x);
 			}
 			
-			//dfs 작성하기
+			ans = 0;
+			visited = new boolean[N+1];
+			for (int i = 1; i <= N; i++) {
+				if (ans == N) break;
+				dfs(i, 1);
+			}
 			
+			System.out.println("#"+t+" "+ans);
 		}
+	}
+	
+	public static void dfs(int start, int cnt) {
+		visited[start] = true;
+		
+		List<Integer> nextList = graph.get(start);
+		for (int i = 0, len = nextList.size(); i < len; i++) {
+			int next = nextList.get(i);
+			
+			if (visited[next]) continue;
+			
+			dfs(next, cnt+1);
+			visited[next] = false;
+		}
+		
+		visited[start] = false;
+		ans = Math.max(ans, cnt);
 	}
 }
