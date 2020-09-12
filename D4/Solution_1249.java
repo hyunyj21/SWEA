@@ -4,7 +4,7 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class Solution_1249 {
 	static int N, ans;
@@ -37,18 +37,18 @@ public class Solution_1249 {
 	}
 	
 	public static void bfs() {
-		LinkedList<int[]> q = new LinkedList<>();
-		q.offer(new int[] {0,0,0});
+		PriorityQueue<Point> q = new PriorityQueue<>();
+		q.offer(new Point(0, 0, 0));
 		min[0][0] = 0;
 		
 		while(!q.isEmpty()) {
-			int[] cur = q.poll();
-			int r = cur[0];
-			int c = cur[1];
-			int cnt = cur[2];
+			Point cur = q.poll();
+			int r = cur.row;
+			int c = cur.col;
+			int cost = cur.cost;
 			
 			if (r == N-1 && c == N-1) {
-				ans = Math.min(ans, cnt);
+				ans = Math.min(ans, cost);
 				continue;
 			}
 			
@@ -56,11 +56,28 @@ public class Solution_1249 {
 				int nr = r + dir[i][0];
 				int nc = c + dir[i][1];
 				
-				if (nr>-1 && nr<N && nc>-1 && nc<N && (cnt+map[nr][nc] < min[nr][nc])) {
-					q.offer(new int[] {nr, nc, cnt+map[nr][nc]});
-					min[nr][nc] = cnt+map[nr][nc];
+				if (nr>-1 && nr<N && nc>-1 && nc<N && (cost+map[nr][nc] < min[nr][nc])) {
+					q.offer(new Point(nr, nc, cost+map[nr][nc]));
+					min[nr][nc] = cost+map[nr][nc];
 				}
 			}
+		}
+	}
+	
+	public static class Point implements Comparable<Point> {
+		int row;
+		int col;
+		int cost;
+		
+		public Point(int row, int col, int cost) {
+			this.row = row;
+			this.col = col;
+			this.cost = cost;
+		}
+
+		@Override
+		public int compareTo(Point o) {
+			return this.cost - o.cost;
 		}
 	}
 }
