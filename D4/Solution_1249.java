@@ -23,8 +23,10 @@ public class Solution_1249 {
 			for (int i = 0; i < N; i++) {
 				String tmp = in.readLine();
 				
-				for (int j = 0; j < N; j++)
+				for (int j = 0; j < N; j++) {
 					map[i][j] = tmp.charAt(j) - '0';
+					min[i][j] = Integer.MAX_VALUE;
+				}
 			}
 
 			ans = Integer.MAX_VALUE;
@@ -37,7 +39,7 @@ public class Solution_1249 {
 	public static void bfs() {
 		LinkedList<int[]> q = new LinkedList<>();
 		q.offer(new int[] {0,0,0});
-		min[0][0] = Integer.MAX_VALUE;
+		min[0][0] = 0;
 		
 		while(!q.isEmpty()) {
 			int[] cur = q.poll();
@@ -54,12 +56,11 @@ public class Solution_1249 {
 				int nr = r + dir[i][0];
 				int nc = c + dir[i][1];
 				
-				if (nr>-1 && nr<N && nc>-1 && nc<N && (min[nr][nc]==0 || min[nr][nc]!=0 && (cnt+map[nr][nc] < min[nr][nc]))) {
+				if (nr>-1 && nr<N && nc>-1 && nc<N && (cnt+map[nr][nc] < min[nr][nc])) {
 					q.offer(new int[] {nr, nc, cnt+map[nr][nc]});
 					min[nr][nc] = cnt+map[nr][nc];
 				}
 			}
 		}
-		
 	}
 }
