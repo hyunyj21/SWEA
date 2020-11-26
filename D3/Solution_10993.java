@@ -34,43 +34,40 @@ public class Solution_10993 {
 				}
 			}
 			
-			char[] result = new char[N];
+			int[] result = new int[N];
 			
 			for (int i = 0; i < N; i++) {
-				int cityNum = 0, tmp = 0;
+				int tmp = -1;
 				double max = 0;
 				
 				for (int j = 0; j < N; j++) {
 					if (influence[j][i] == 0) continue;
-					if (influence[j][i] == max) {
-						tmp = 1;
-						break;
-					}
 					
-					if (influence[j][i] > max) {
-						tmp = 2;
+					if (influence[j][i] == max) tmp = -2;
+					else if (influence[j][i] > max) {
 						max = influence[j][i];
-						cityNum = j+1;
+						tmp = j+1;
 					}
 				}
 				
-				if (tmp == 0) result[i] = 'K';
-				else if (tmp == 1) result[i] = 'D';
-				else result[i] = (char) (cityNum + '0');
+				result[i] = tmp;
 			}
 			
 			sb.append("#").append(t);
 			
 			for (int i = 0; i < N; i++) {
-				sb.append(" ");
+				if (result[i] == -1) {
+					sb.append(" K");
+					continue;
+				}
 				
-				if (!Character.isDigit(result[i])) {
-					sb.append(result[i]);
+				if (result[i] == -2) {
+					sb.append(" D");
 					continue;
 				}
 				
 				changeRoot(result, i);
-				sb.append(result[i]-'0');
+				sb.append(" ").append(result[i]);
 			}
 			
 			sb.append("\n");
@@ -79,12 +76,12 @@ public class Solution_10993 {
 		System.out.print(sb);
 	}
 	
-	public static char changeRoot(char[] result, int idx) {
-		if (!Character.isDigit(result[idx])) {
-			return (char) (idx+1 + '0');
+	public static int changeRoot(int[] result, int idx) {
+		if (result[idx] < 0) {
+			return idx+1;
 		}
 		
-		result[idx] = changeRoot(result, result[idx]-'0'-1);
+		result[idx] = changeRoot(result, result[idx]-1);
 		return result[idx];
 	}
 }
